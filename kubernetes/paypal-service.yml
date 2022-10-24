@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: paypal-service
+  labels:
+    app: paypal-service
+spec:
+  ports:
+    - name: http
+      port: 8080
+      targetPort: 8080
+      nodePort: 30088
+  selector:
+    app: paypal-service
+  type: NodePort
+
+

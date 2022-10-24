@@ -26,7 +26,7 @@ public class PaypalServiceImpl implements PaypalService {
     }
 
     @Override
-    @KafkaListener(id = "paymentId", topics = "${kafka.topicPaypal}")
+    @KafkaListener(id = "paymentId", topics = "${kafka.topic.paypal}")
     public void listenPayment(Paypal paypal) {
         System.out.println("Received info from paypal topic: " + paypal);
         if (paypal != null) {

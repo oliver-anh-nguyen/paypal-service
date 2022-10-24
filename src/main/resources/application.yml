@@ -30,7 +30,8 @@ spring:
       local-datacenter: datacenter1
 
 kafka:
-  topicPaypal: "PAYPAL_TOPIC"
+  topic:
+    paypal: "PAYPAL_TOPIC"
 ---
 spring:
   config:
@@ -39,7 +40,8 @@ spring:
   kafka:
     bootstrap-servers: ${BOOTSTRAP_SERVERS}
 kafka:
-  topicPaypal: ${PAYPAL_TOPIC}
+  topic:
+    paypal: ${PAYPAL_TOPIC}
 ---
 server:
   port: 8081
