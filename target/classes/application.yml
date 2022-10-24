@@ -1,0 +1,45 @@
+spring:
+  kafka:
+    consumer:
+      value-deserializer: "org.springframework.kafka.support.serializer.JsonDeserializer"
+      properties:
+        "[spring.json.value.default.type]": "edu.miu.paypalservice.entity.Paypal"
+        "[spring.json.trusted.packages]": "edu.miu.paypalservice"
+    producer:
+      value-serializer: "org.springframework.kafka.support.serializer.JsonSerializer"
+      properties:
+        "[spring.json.add.type.headers]": false
+
+---
+spring:
+  config:
+    activate:
+      on-profile: dev
+  kafka:
+    bootstrap-servers: "localhost:9092"
+
+  main:
+    allow-bean-definition-overriding: true
+
+  data:
+    cassandra:
+      contact-points: "localhost:9042"
+      keyspace-name: paypal_ks
+      #port: 9042
+      schema-action: create_if_not_exists
+      local-datacenter: datacenter1
+
+kafka:
+  topicPaypal: "PAYPAL_TOPIC"
+---
+spring:
+  config:
+    activate:
+      on-profile: prod
+  kafka:
+    bootstrap-servers: ${BOOTSTRAP_SERVERS}
+kafka:
+  topicPaypal: ${PAYPAL_TOPIC}
+---
+server:
+  port: 8081
