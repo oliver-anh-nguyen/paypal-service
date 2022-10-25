@@ -7,11 +7,10 @@ metadata:
 spec:
   ports:
     - name: http
-      port: 8080
+      port: 80
       targetPort: 8080
-      nodePort: 30088
   selector:
     app: paypal-service
-  type: NodePort
+  type: LoadBalancer
 
 
