@@ -44,13 +44,13 @@ spring:
 
   main:
     allow-bean-definition-overriding: ${SPRING_ALLOW_BEAN_DEFINITION_OVERRIDING}
-    data:
-      cassandra:
-        contact-points: ${DB_CONTACT_POINTS}
-        port: ${DB_PORT}
-        keyspace-name: ${DB_PAYPAL_KEYSPACE}
-        schema-action: ${DB_SCHEME_ACTION}
-        local-datacenter: ${DB_DATACENTER}
+  data:
+    cassandra:
+      contact-points: ${DB_CONTACT_POINTS}
+      port: ${DB_PORT}
+      keyspace-name: ${DB_PAYPAL_KEYSPACE}
+      schema-action: ${DB_SCHEME_ACTION}
+      local-datacenter: ${DB_DATACENTER}
 kafka:
   topic:
     paypal: ${PAYMENT_PAYPAL_TOPIC}
