@@ -1,5 +1,6 @@
 package edu.miu.paypalservice.service;
 
+import edu.miu.paypalservice.entity.Notification;
 import edu.miu.paypalservice.entity.Paypal;
 import edu.miu.paypalservice.repository.PaypalRepository;
 import lombok.RequiredArgsConstructor;
@@ -22,18 +23,18 @@ public class PaypalServiceImpl implements PaypalService {
 
     private final PaypalRepository paypalRepository;
 
-    private final KafkaTemplate<String, Paypal> kafkaTemplate;
+    private final KafkaTemplate<String, Notification> kafkaTemplate;
 
     @Value("${kafka.topic.notification}")
     private String topicNotification;
 
     @Override
-    public void publish(String topic, Paypal payment) {
-        ListenableFuture<SendResult<String, Paypal>> future = kafkaTemplate.send(topic, payment);
+    public void publish(String topic, Notification payment) {
+        ListenableFuture<SendResult<String, Notification>> future = kafkaTemplate.send(topic, payment);
         future.addCallback(new ListenableFutureCallback<>() {
 
             @Override
-            public void onSuccess(final SendResult<String, Paypal> message) {
+            public void onSuccess(final SendResult<String, Notification> message) {
                 log.info("PAYPAL sent message= " + message + " with offset= " + message.getRecordMetadata().offset());
             }
 
@@ -50,7 +51,9 @@ public class PaypalServiceImpl implements PaypalService {
         log.info("PAYPAL received info from paypal topic: " + paypal);
         if (paypal != null) {
             save(paypal);
-            publish(topicNotification, paypal);
+            String body = "Successfully! Thank you for your payment! Property ID: " + paypal.getPropertyId();
+            Notification notificationRequest = new Notification(paypal.getEmail(), "PAYPAL Notification",  body);
+            publish(topicNotification, notificationRequest);
         }
     }
     @Transactional
