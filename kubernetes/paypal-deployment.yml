@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: paypal-service
-          image: anhnt5/paypal-service:1.0.2
+          image: anhnt5/paypal-service:1.0.0
           env:
             - name: SPRING_PROFILES_ACTIVE
               value: "prod"

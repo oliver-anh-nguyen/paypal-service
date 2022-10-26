@@ -24,11 +24,8 @@ jobs:
       - name: Execute Maven bootJar
         run: ./mvnw -q package
 
-      - name: Build the Docker image
-        run: docker build . --file Dockerfile --tag paypal-service:${GITHUB_REF#refs/*/}
-
-      - name: Tag image
-        run: docker tag paypal-service:${GITHUB_REF#refs/*/} ${{secrets.DOCKER_USER_NAME}}/paypal-service:${GITHUB_REF#refs/*/}
+      name: Build the Docker image
+        run: docker build . --file Dockerfile --tag ${{secrets.DOCKER_USER_NAME}}/paypal-service:1.0.0
 
       - name: Docker Login
         env:
