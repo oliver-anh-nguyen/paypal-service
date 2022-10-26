@@ -25,7 +25,10 @@ jobs:
         run: ./mvnw -q package
 
       - name: Build the Docker image
-        run: docker build . --file Dockerfile --tag ${{secrets.DOCKER_USER_NAME}}/paypal-service:1.0.3
+        run: docker build . --file Dockerfile --tag paypal-service:${GITHUB_REF#refs/*/}
+
+      - name: Tag image
+        run: docker tag paypal-service:${GITHUB_REF#refs/*/} ${{secrets.DOCKER_USER_NAME}}/paypal-service:${GITHUB_REF#refs/*/}
 
       - name: Docker Login
         env:
@@ -38,4 +41,4 @@ jobs:
         run: docker image
 
       - name: Push to Docker Hub
-        run: docker push ${{secrets.DOCKER_USER_NAME}}/paypal-service:1.0.3
+        run: docker push ${{secrets.DOCKER_USER_NAME}}/paypal-service:${GITHUB_REF#refs/*/}

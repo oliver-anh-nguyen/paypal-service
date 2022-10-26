@@ -51,6 +51,10 @@ spring:
       keyspace-name: ${DB_PAYPAL_KEYSPACE}
       schema-action: ${DB_SCHEME_ACTION}
       local-datacenter: ${DB_DATACENTER}
+  zipkin:
+    baseUrl: ${ZIPKIN_SERVER}
+    service:
+      name: ${ZIPKIN_PAYPAL_SERVICE}
 kafka:
   topic:
     paypal: ${PAYMENT_PAYPAL_TOPIC}
