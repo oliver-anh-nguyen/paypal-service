@@ -9,7 +9,6 @@ spring:
       value-serializer: "org.springframework.kafka.support.serializer.JsonSerializer"
       properties:
         "[spring.json.add.type.headers]": false
-
 ---
 spring:
   config:
@@ -23,23 +22,37 @@ spring:
 
   data:
     cassandra:
-      contact-points: "localhost:9042"
+      contact-points: "localhost"
       keyspace-name: paypal_ks
-      #port: 9042
+      port: 9042
       schema-action: create_if_not_exists
       local-datacenter: datacenter1
 
 kafka:
-  topicPaypal: "PAYPAL_TOPIC"
+  topic:
+    paypal: "PaypalRequestEvent"
+    notification: "GetNotificationEvent"
+server:
+  port: 8081
 ---
 spring:
   config:
     activate:
       on-profile: prod
   kafka:
-    bootstrap-servers: ${BOOTSTRAP_SERVERS}
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVER}
+
+  main:
+    allow-bean-definition-overriding: ${SPRING_ALLOW_BEAN_DEFINITION_OVERRIDING}
+    data:
+      cassandra:
+        contact-points: ${DB_CONTACT_POINTS}
+        port: ${DB_PORT}
+        keyspace-name: ${DB_PAYPAL_KEYSPACE}
+        schema-action: ${DB_SCHEME_ACTION}
+        local-datacenter: ${DB_DATACENTER}
 kafka:
-  topicPaypal: ${PAYPAL_TOPIC}
----
-server:
-  port: 8081
+  topic:
+    paypal: ${PAYMENT_PAYPAL_TOPIC}
+    notification: ${NOTIFICATION_REQUEST_TOPIC}
+
